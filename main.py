@@ -2,7 +2,7 @@ import os
 import easyocr
 
 
-READER = easyocr.Reader('en') # this needs to run only once to load the model into memory
+READER = easyocr.Reader(['en']) # this needs to run only once to load the model into memory
 
 
 def pdf_or_image(file_path):
@@ -21,7 +21,7 @@ path_img = "documents/the human brain image.png"
 path_pdf = "documents/Caetano CV.pdf"
 
 def read_image(file_path):
-    text = READER.readtext('chinese.jpg', detail = 0)
+    text = READER.readtext(file_path, detail = 0)
     return text
 
 
@@ -35,5 +35,7 @@ path = path_img
 if pdf_or_image(path) == 'image':
     t = read_image(path)
     print(t)
-else pdf_or_image(path) == 'pdf':
-    t = read_pdf(file_path)
+
+if pdf_or_image(path) == 'pdf':
+    t = read_pdf(path)
+    print(t)

@@ -1,5 +1,8 @@
 import os
 import easyocr
+from pdf2image import convert_from_path
+import numpy as np
+
 
 
 READER = easyocr.Reader(['en']) # this needs to run only once to load the model into memory
@@ -18,7 +21,7 @@ def pdf_or_image(file_path):
 
 
 path_img = "documents/the human brain image.png"
-path_pdf = "documents/Caetano CV.pdf"
+path_pdf = "Caetano CV.pdf"
 
 def read_image(file_path):
     text = READER.readtext(file_path, detail = 0)
@@ -26,9 +29,16 @@ def read_image(file_path):
 
 
 def read_pdf(file_path):
-    print('in dev')
+    pages = convert_from_path(file_path, dpi=300, poppler_path='C:/Users/caetano/Downloads/Release-24.08.0-0/poppler-24.08.0/Library/bin')
 
-path = path_img
+    text = ""
+    for i, page in enumerate(pages):
+
+        text +=  "\n".join(READER.readtext(np.array(page), detail=0)) + "\n"
+
+    return text
+
+path = path_pdf
 
 
 
